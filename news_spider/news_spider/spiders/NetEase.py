@@ -11,9 +11,20 @@ class NetEaseSpider(scrapy.Spider):
 	allowed_domains=['news.163.com']
 
 	base_url = 'http://snapshot.news.163.com/wgethtml/http+!!news.163.com!'
+#	year = ['2016','2015']
+#	month = ['12','11','10','09','08','07','06','05','04','03','02','01']
+	year = ['2016']
+	month = ['03']
 
 	def parse(self,response):
-		count = 1
+		for y in self.year:
+			for m in self.month:
+				for d in range(1,30):
+					url = self.base_url+'/'+y+'-'+m+'/'+str(d)+'/12.html'
+					yield scrapy.Request(url,self.parseList)
+
+	
+	def parseList(self,response):
 		urls = response.xpath("//a/@href").extract()
 		for url in urls:
 			yield scrapy.Request(url,self.parseNews)
