@@ -12,7 +12,7 @@ class TouTiaoSpider(scrapy.Spider):
 	]
 	base_class_url = 'http://toutiao.com/articles_news_society'
 	base_url = 'http://toutiao.com'
-	maxpage = 3;#允许爬的最大的页数
+	maxpage = 2;#允许爬的最大的页数
 	category = ['articles_news_society','articles_news_entertainment',
 	'articles_movie','articles_news_tech','articles_digital',
 	'articels_news_sports','articles_news_finance','articles_news_military',
@@ -45,9 +45,9 @@ class TouTiaoSpider(scrapy.Spider):
 			cc=''
 			if(len(content) != 0):
 				for c in content:
-					cc = cc+c
+					cc = cc+c+'\n'
 				item['content'] = cc
-			yield item
+				yield item
 
 	def printC(self,text):
 		for t in text:

@@ -1,0 +1,33 @@
+#encoding=utf-8
+import scrapy
+from news_spider.items import NewsSpiderItem
+import json
+import time 
+
+class NetEaseSpider(scrapy.Spider):
+
+	start_urls = ['http://snapshot.news.163.com/wgethtml/http+!!news.163.com!/2016-04/17/12.html']
+	name='netease'
+	allowed_domains=['news.163.com']
+
+	base_url = 'http://snapshot.news.163.com/wgethtml/http+!!news.163.com!'
+
+	def parse(self,response):
+		count = 1
+		urls = response.xpath("//a/@href").extract()
+		for url in urls:
+			yield scrapy.Request(url,self.parseNews)
+
+	def parseNews(self,response):
+		content = response.xpath("//div[@class='post_content_main']")
+		item = NewsSpiderItem()
+		item['time'] = content.xpath("//div[@class='post_time_source']").extract()[0]
+		item['title'] = content.xpath("//h1/text()").extract()[0]
+#		content = content.xpath("//div[@class='post_text']/p/text()")
+#		cc=''
+#		if(len(content)!=0):
+#			for cc in content:
+#				cc = cc+content+'\n'
+#		item['content'] = cc
+		yield item
+
