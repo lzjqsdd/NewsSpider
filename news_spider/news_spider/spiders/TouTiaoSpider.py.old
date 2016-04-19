@@ -1,0 +1,33 @@
+#coding:cp936 
+import scrapy
+from news_spider.items import NewsSpiderItem
+import json
+import time
+
+class TouTiaoSpider(scrapy.Spider):
+
+	name = 'toutiao'
+#	allowed_domains = ["toutiao.com"]
+	maxbetime = int(time.time())
+	aliastime = int(time.time()*1000)
+	baseurl = 'http://toutiao.com/api/article/recent/?source=2&count=20&category=__all__&offset=0'
+#	baseurl = 'http://toutiao.com/api/article/recent/?source=2&count=100&category=news_hot&utm_source=toutiao&offset=0'
+	start_urls = [baseurl+'&max_behot_time='+str(maxbetime)+'&_='+str(aliastime)]
+
+	def parse(self,response):
+		print response.url
+		data = json.loads(response.body)
+		self.maxbetime = data['next']['max_behot_time']
+		for news in data['data']:
+			item = NewsSpiderItem()
+			item['title'] = news['title']
+			item['abstract'] = news['abstract']
+			item['time'] = news['datetime']
+			news_url = news['url']
+			yield scrapy.Request(news_url,callback=self.parseNews)
+		nexturl = self.baseurl+'&max_behot_time='+str(self.maxbetime)
+		yield scrapy.Request(nexturl,callback=self.parse)
+
+	def parseNews(self,response):
+		print response.xpath("//div[@class='article-content']/p/text()").extract()
+
