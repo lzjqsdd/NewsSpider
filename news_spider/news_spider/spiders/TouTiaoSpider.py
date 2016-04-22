@@ -12,7 +12,7 @@ class TouTiaoSpider(scrapy.Spider):
 	]
 	base_class_url = 'http://toutiao.com/articles_news_society'
 	base_url = 'http://toutiao.com'
-	maxpage = 501;#允许爬的最大的页数
+	maxpage = 10;#允许爬的最大的页数
 	category = ['articles_news_society','articles_news_entertainment',
 	'articles_movie','articles_news_tech','articles_digital',
 	'articels_news_sports','articles_news_finance','articles_news_military',
@@ -36,12 +36,15 @@ class TouTiaoSpider(scrapy.Spider):
 #解析具体新闻内容 
 	def parseNews(self,response):
 		articles = response.xpath("//div[@id='pagelet-article']")
-		for article in articles:
-			item = NewsSpiderItem()
-			item['title'] = article.xpath("//div[@class='article-header']/h1/text()").extract()[0]
-			item['time'] = article.xpath("//div[@id='pagelet-article']//span[@class='time']/text()").extract()[0]
-			content = article.xpath("//div[@class='article-content']//p/text()").extract()
-#item['content'] = article.xpath("//div[@class='article-content']//p/text()").extract()
+		item = NewsSpiderItem()
+		title = articles.xpath("//div[@class='article-header']/h1/text()").extract()[0]
+		tm = articles.xpath("//div[@id='pagelet-article']//span[@class='time']/text()").extract()[0]
+		content = articles.xpath("//div[@class='article-content']//p/text()").extract()
+
+		if(len(title)!=0 and len(tm)!=0 and len(content)!=0):
+			item['title'] = title
+			item['time'] = int(time.mktime(time.strptime(tm,'%Y-%m-%d %H:%M')))
+			item['url'] = response.url
 			cc=''
 			if(len(content) != 0):
 				for c in content:

@@ -13,3 +13,10 @@ class NewsSpiderItem(scrapy.Item):
 	title = scrapy.Field()
 	time = scrapy.Field()
 	content = scrapy.Field()
+	url = scrapy.Field()
+
+class TitleSpiderItem(scrapy.Item):
+	title = scrapy.Field()
+	time = scrapy.Field()
+	url = scrapy.Field()
+
