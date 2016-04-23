@@ -12,7 +12,11 @@ while 1:
 		break
 	data = json.loads(line)
 	c+=1
-	print data['time'],data['title'],data['url']
+	if sys.argv[2] == '1':
+		print c,"-->",data['time'],data['title'],data['url'],data['content']
+	else:
+		print c,"-->",data['time'],data['title'],data['url']
+		
 
 #data = json.load(file)
 #c = 0
