@@ -5,11 +5,13 @@ reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
 file = open(sys.argv[1])
+c=0
 while 1:
 	line = file.readline()
 	if not line:
 		break
 	data = json.loads(line)
+	c+=1
 	print data['time'],data['title'],data['url']
 
 #data = json.load(file)
@@ -21,3 +23,4 @@ while 1:
 #	print article['time'],article['title']
 #	print "[----Article--]\n",article['content'],"\n\n"
 
+print c

@@ -7,33 +7,51 @@
 import codecs
 import json
 from items import TitleSpiderItem
-import fcntl
+import threading
 
 
 class NewsSpiderPipeline(object):
+	lock = threading.Lock()
+	file = open('news.json','a')
 	
 	def __init__(self):
-		self.file = open('news.json','wb')
+		pass
 
 	def process_item(self,item,spider):
-		fcntl.flock(self.file,fcntl.LOCK_EX)
 		line = json.dumps(dict(item))+'\n'
-		self.file.write(line)
-		fcntl.flock(self.file,fcntl.LOCK_UN)
+		try:
+			NewsSpiderPipeline.lock.acquire()	
+			NewsSpiderPipeline.file.write(line)
+		except:
+			pass
+		finally:
+		 	NewsSpiderPipeline.lock.release()
 		return item
+	def spider_closed(self,spider):
+		pass
 
 
 class TitlePipeline(object):
-	def __init__(self):
-		file_title = open('title.json','wb')
+	lock = threading.Lock()
+	file_title = open('title.json','a')
 
+	def __init__(self):
+		pass
 	def process_item(self,item,spider):
-		fcntl.flock(file_title,fcntl.LOCK_EX)
 		title_item = TitleSpiderItem()
 		title_item['title'] = item['title']
 		title_item['time'] = item['time']
 		title_item['url'] = item['url']
 		line = json.dumps(dict(title_item))+'\n'
-		file_title.write(line)
-		fcntl.flock(file_title,fcntl.LOCK_UN)
+
+		try:
+			TitlePipeline.lock.acquire()
+			TitlePipeline.file_title.write(line)
+		except:
+			pass
+		finally:
+			TitlePipeline.lock.release()
 		return item
+
+	def spider_closed(self,spider):
+		pass

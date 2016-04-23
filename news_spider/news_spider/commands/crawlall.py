@@ -33,6 +33,6 @@ class Command(ScrapyCommand):
 	
 	spider_loader = self.crawler_process.spider_loader
 	for spidername in args or spider_loader.list():
-	    print "*********cralall spidername************" + spidername
+	    print "*********crawlall spidername************" + spidername
 	    self.crawler_process.crawl(spidername, **opts.spargs)
         self.crawler_process.start()

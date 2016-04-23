@@ -11,7 +11,7 @@ class TencentSpider(scrapy.Spider):
 	name='tencent'
 	allowed_domains=['news.qq.com']
 
-	base_url = 'http://news.qq.com/b/history/index'
+#	base_url = 'http://news.qq.com/b/history/index'
 #	year = ['2016','2015','2014']
 #	month = ['12','11','10','09','08','07','06','05','04','03','02','01']
 #	day = ['31','30','29','28','27','26','25','24','23','22','21',
