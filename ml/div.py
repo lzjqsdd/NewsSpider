@@ -1,5 +1,18 @@
 #encoding=utf-8
 import jieba
-seg_list = jieba.cut("我来到北京清华大学", cut_all=True)
-for l in seg_list:
-	print l
+
+
+
+class DivideWord:
+	def __init__(self):
+		pass
+	def parse(self):
+		file = open('../news_spider/title.json')
+
+		while True:
+			line = file.readline()
+			if not line:
+				break
+			data = json.loads(line)
+			seg_list = list(jieba.cut(data['title'], cut_all=True))
+			print seg_list
