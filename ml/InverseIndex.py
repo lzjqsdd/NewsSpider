@@ -12,6 +12,7 @@ class InverseIndex:
 	def __init__(self):
 		self.file_data= open(Global.data_dir)
 		self.file_sw = open(Global.stopword_dir)
+		self.ii = open(Global.inverse_dir,'wb')
 		self.stopword=[]
 		self.worddict = dict()
 
@@ -24,7 +25,6 @@ class InverseIndex:
 			print line,
 
 	def loaddata(self):
-
 		self.loadsw()
 		count=0
 		while True:
@@ -38,8 +38,13 @@ class InverseIndex:
 				if w not in self.worddict:
 					self.worddict[w] = []	
 				if w not in self.stopword:
+					print w,
 					self.worddict[w].append(count)
 
+	def write2file(self):
+		for w in self.worddict:
+			ii.write(w+' '+str(worddict[w])+'\n')
 
 ii = InverseIndex()
 ii.loaddata()
+ii.write2file()
