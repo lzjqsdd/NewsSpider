@@ -30,19 +30,21 @@ class Cut:
 			cut_file.close()
 			num+=1
 	def getRow(self,recordnum,path,size):
-		filenum = recordnum/size
-		linenum = recordnum%size
+		filenum = (recordnum-1)/size
+		linenum = (recordnum-1)%size+1
 		cutfilename = path+'/'+str(filenum)+'.txt'
-		print cutfilename
+		print cutfilename,linenum
 		linecache.clearcache()
 		line = linecache.getline(cutfilename,linenum)
-		print line
+		linecache.clearcache()
+		data = json.loads(line)
+#print data['title'],data['time']
 		return line
 
 #test cutfile
 #c = Cut()
-#c.cutfile(Global.inverse_dir,Global.data_dir,Global.filesize)
+#c.cutfile(Global.cutnews_dir,Global.content_dir,Global.filesize)
 
 #test getRow
 #c = Cut()
-#c.getRow(107,Global.inverse_dir,Global.filesize)
+#c.getRow(200,Global.cutnews_dir,Global.filesize)

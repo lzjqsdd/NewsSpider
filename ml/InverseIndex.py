@@ -1,8 +1,12 @@
-#encoding=utf-8
+# -*- coding: utf-8 -*- 
 import jieba
 import json
 import sys
 import Global
+from Cut import Cut
+from sklearn import feature_extraction
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -10,12 +14,13 @@ sys.setdefaultencoding('utf-8')
 class InverseIndex:
 
 	def __init__(self):
-		self.file_data= open(Global.data_dir)
+		self.file_data= open(Global.title_dir)
 		self.file_sw = open(Global.stopword_dir)
-		self.ii = open(Global.inverse_dir,'wb')
+#self.ii = open(Global.inverse_dir,'wb')
 		self.stopword=[]
 		self.worddict = dict()
 
+	#load stopword list
 	def loadsw(self):
 		while True:
 			line = self.file_sw.readline()
@@ -24,7 +29,8 @@ class InverseIndex:
 			self.stopword.append(line)
 			print line,
 
-	def loaddata(self):
+	#load origin data:news.json,title.json
+	def CalcInverseIndex(self):
 		self.loadsw()
 		count=0
 		while True:
@@ -41,10 +47,52 @@ class InverseIndex:
 					print w,
 					self.worddict[w].append(count)
 
+	def loadDataFromFile(self):
+		doc = []
+		f = open(Global.content_dir,'r')
+		while True:
+			line = f.readline()
+			if not line:
+				break
+			data = json.loads(line)
+			seg_list = list(jieba.cut(data['title'],cut_all=True))
+			doc.append(seg_list)
+		return doc
+
+
+	def loadDataFromCutFile(self,totalnum):
+		doc = []
+		cut = Cut()
+		for i in range(1,totalnum):
+			line = cut.getRow(i,Global.cutnews_dir,Global.filesize)
+			if not line:
+				break
+			data = json.loads(line)
+			seg_list = jieba.cut(data['content'],cut_all=True)
+			for seg in seg_list:
+				seg=''.join(seg.split())
+				if(seg!='' and seg!="\n" and seg!="\n\n"):
+					doc.append(seg)
+		return doc
+
+
+	#save inverse table to file
 	def write2file(self):
 		for w in self.worddict:
 			ii.write(w+' '+str(worddict[w])+'\n')
 
+
+
+	#calculate tf-idf
+	def CalcTFIDF(self):
+		docArray = self.loadDataFromCutFile(100)
+		vectorizer = CountVectorizer()
+		transformer = TfidfTransformer()
+		tfidf = transformer.fit_transform(vectorizer.fit_transform(docArray))
+		print 'done'
+		for name in vectorizer.get_feature_names():
+			print name
+
+#test
 ii = InverseIndex()
-ii.loaddata()
-ii.write2file()
+ii.CalcTFIDF()

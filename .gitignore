@@ -5,3 +5,4 @@ news_spider/title.json
 news_spider/news.json
 news_spider/news.db
 ml/inversedata
+ml/cutnews
