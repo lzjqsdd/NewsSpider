@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*- 
 import json
 import sys
-import Global
+sys.path.append("..")
+import tools.Global as Global
 import os
 import linecache
+import jieba
 
 class Cut:
 	def __init__(self):
@@ -26,7 +28,11 @@ class Cut:
 				if not line:
 					flag = 1
 					break
-				cut_file.write(line)
+				data = json.loads(line)
+				seg_list = jieba.cut(data['content'],cut_all=True)
+				result = ' '.join(seg_list)
+				data['content'] = result
+				cut_file.write(json.dumps(data)+'\n')
 			cut_file.close()
 			num+=1
 	def getRow(self,recordnum,path,size):
@@ -38,7 +44,6 @@ class Cut:
 		line = linecache.getline(cutfilename,linenum)
 		linecache.clearcache()
 		data = json.loads(line)
-#print data['title'],data['time']
 		return line
 
 #test cutfile

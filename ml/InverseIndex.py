@@ -2,13 +2,15 @@
 import jieba
 import json
 import sys
-import Global
+reload(sys)
+sys.path.append("..")
+sys.setdefaultencoding('utf-8')
+import tools.Global as Global
 from Cut import Cut
 from sklearn import feature_extraction
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
-reload(sys)
-sys.setdefaultencoding('utf-8')
+from tools.show import show
 
 
 class InverseIndex:

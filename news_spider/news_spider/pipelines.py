@@ -12,7 +12,7 @@ import threading
 
 class NewsSpiderPipeline(object):
 	lock = threading.Lock()
-	file = open('news.json','a')
+	file = open('../data/news.json','a')
 	
 	def __init__(self):
 		pass
@@ -33,7 +33,7 @@ class NewsSpiderPipeline(object):
 
 class TitlePipeline(object):
 	lock = threading.Lock()
-	file_title = open('title.json','a')
+	file_title = open('../data/title.json','a')
 
 	def __init__(self):
 		pass
