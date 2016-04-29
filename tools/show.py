@@ -36,3 +36,13 @@ class show:
 		print "-->",data['time'],data['title'],data['url'],data['content']
 
 	
+	def showKeyWord(self):
+		f = open(Global.inverse_dir+'id.txt','r')
+		line = f.readline()
+		data = json.loads(line)
+		print 'load keyword done.'
+		print type(data)
+		for k in data.keys():
+			print k,data[k]
+
+

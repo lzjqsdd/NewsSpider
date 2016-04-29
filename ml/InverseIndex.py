@@ -44,7 +44,7 @@ class InverseIndex:
 			count+=1
 			for w in seg_list:
 				if w not in self.worddict:
-					self.worddict[w] = []	
+					self.worddict[w] = []
 				if w not in self.stopword:
 					print w,
 					self.worddict[w].append(count)
@@ -87,14 +87,20 @@ class InverseIndex:
 
 	#calculate tf-idf
 	def CalcTFIDF(self):
-		docArray = self.loadDataFromCutFile(100)
+		docArray = self.loadDataFromCutFile(10000)
 		vectorizer = CountVectorizer()
 		transformer = TfidfTransformer()
 		tfidf = transformer.fit_transform(vectorizer.fit_transform(docArray))
 		print 'done'
+		#write index-doc to file
+		i = 0
+		indexdoc = dict()
+		f = open(Global.inverse_dir+'id.txt','wb')
 		for name in vectorizer.get_feature_names():
-			print name
-
+			i+=1
+			indexdoc[i] = name
+		f.write(json.dumps(indexdoc))
+		
 #test
 ii = InverseIndex()
 ii.CalcTFIDF()
