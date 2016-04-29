@@ -3,7 +3,7 @@
 - 网易新闻
 - 腾讯新闻
 
-### [整体结构](https://github.com/lzjqsdd/NewsSpider/blob/master/FRAME.md)
+### [整体结构](https://github.com/lzjqsdd/NewsSpider/blob/master/Frame.md)
 
 ## 运行
 
