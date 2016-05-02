@@ -78,16 +78,9 @@ class InverseIndex:
 		return doc
 
 
-	#save inverse table to file
-	def write2file(self):
-		for w in self.worddict:
-			ii.write(w+' '+str(worddict[w])+'\n')
-
-
-
 	#calculate tf-idf
 	def CalcTFIDF(self):
-		docArray = self.loadDataFromCutFile(10000)
+		docArray = self.loadDataFromCutFile(100)
 		vectorizer = CountVectorizer()
 		transformer = TfidfTransformer()
 		tfidf = transformer.fit_transform(vectorizer.fit_transform(docArray))
@@ -97,9 +90,28 @@ class InverseIndex:
 		indexdoc = dict()
 		f = open(Global.inverse_dir+'id.txt','wb')
 		for name in vectorizer.get_feature_names():
-			i+=1
 			indexdoc[i] = name
+			i+=1
 		f.write(json.dumps(indexdoc))
+		f.close()
+		
+		colnum  = tfidf.shape[1]
+		row = tfidf.shape[0]
+		for i in range(0,colnum):
+			filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
+			f = open(filename,'a')
+			idx_list = dict()
+			for j in range(0,row):
+				val = tfidf[j,i]
+				if val > 0:
+					idx_list[j] = val
+			f.write(json.dumps(idx_list)+'\n')
+			f.close()
+		
+
+	def WriteInverseIndex(self,mat):
+		pass
+		
 		
 #test
 ii = InverseIndex()
