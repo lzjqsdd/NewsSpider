@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- 
 import jieba
+import jieba.analyse as analyse
 import json
 import sys
 reload(sys)
@@ -70,11 +71,12 @@ class InverseIndex:
 			if not line:
 				break
 			data = json.loads(line)
-			seg_list = jieba.cut(data['content'],cut_all=True)
-			for seg in seg_list:
-				seg=''.join(seg.split())
-				if(seg!='' and seg!="\n" and seg!="\n\n"):
-					doc.append(seg)
+#	seg_list = jieba.cut(data['content'],cut_all=True)
+
+			keyword = analyse.extract_tags(data['content'],topK=10)
+			seg = " ".join(keyword)
+			print seg
+			doc.append(seg)
 		return doc
 
 
@@ -89,25 +91,26 @@ class InverseIndex:
 		i = 0
 		indexdoc = dict()
 		f = open(Global.inverse_dir+'id.txt','wb')
+		word = vectorizer.get_feature_names()
 		for name in vectorizer.get_feature_names():
 			indexdoc[name] = i
 			i+=1
 		f.write(json.dumps(indexdoc))
 		f.close()
 		
-		colnum  = tfidf.shape[1]
+		colnum = tfidf.shape[1]
 		row = tfidf.shape[0]
 		for i in range(0,colnum):
 			filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
-			f = open(filename,'a'
-			idx_list = dict()
+			f = open(filename,'a')
+			idx_list = list()
 			for j in range(0,row):
 				val = tfidf[j,i]
 				if val > 0:
 					idx_list[j] = val
 			f.write(json.dumps(idx_list)+'\n')
 			f.close()
-		
+
 
 	def WriteInverseIndex(self,mat):
 		pass
@@ -116,3 +119,4 @@ class InverseIndex:
 #test
 ii = InverseIndex()
 ii.CalcTFIDF()
+#ii.loadDataFromCutFile(20)
