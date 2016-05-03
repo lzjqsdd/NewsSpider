@@ -5,4 +5,5 @@ db_dir = project_root+"data/news.db"
 stopword_dir=project_root+"data/stopword.txt"
 inverse_dir=project_root+"data/inversedata/"
 cutnews_dir=project_root+"data/cutnews/"
+cutnews_origin_dir=project_root+"data/orinews"
 filesize = 100

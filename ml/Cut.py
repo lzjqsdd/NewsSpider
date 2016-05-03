@@ -35,6 +35,27 @@ class Cut:
 				cut_file.write(json.dumps(data)+'\n')
 			cut_file.close()
 			num+=1
+
+	def cutfileWithoutCut(self,path,fliename,size):
+		file_data = open(fliename,'r')
+		num = 0
+		flag = 0
+		while True:
+			if flag == 1:
+				break
+			if not os.path.exists(path):
+				os.makedirs(path)
+			cutfilename = path+'/'+str(num)+'.txt'
+			cut_file = open(cutfilename,'wb')
+			print 'Generate:'+cutfilename+'...'
+			for i in range(0,size):
+				line = file_data.readline()
+				if not line:
+					flag = 1
+					break
+				cut_file.write(line)
+			cut_file.close()
+			num+=1
 	def getRow(self,recordnum,path,size):
 		filenum = (recordnum-1)/size
 		linenum = (recordnum-1)%size+1
@@ -48,6 +69,7 @@ class Cut:
 
 #test cutfile
 #c = Cut()
+#c.cutfileWithoutCut(Global.cutnews_origin_dir,Global.content_dir,Global.filesize)
 #c.cutfile(Global.cutnews_dir,Global.content_dir,Global.filesize)
 
 #test getRow

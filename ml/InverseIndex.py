@@ -73,7 +73,7 @@ class InverseIndex:
 			data = json.loads(line)
 #	seg_list = jieba.cut(data['content'],cut_all=True)
 
-			keyword = analyse.extract_tags(data['content'],topK=10)
+			keyword = analyse.extract_tags(data['content'],topK=20)
 			seg = " ".join(keyword)
 			print seg
 			doc.append(seg)
@@ -93,8 +93,8 @@ class InverseIndex:
 		f = open(Global.inverse_dir+'id.txt','wb')
 		word = vectorizer.get_feature_names()
 		for name in vectorizer.get_feature_names():
-			indexdoc[name] = i
 			i+=1
+			indexdoc[name] = i
 		f.write(json.dumps(indexdoc))
 		f.close()
 		
@@ -103,11 +103,11 @@ class InverseIndex:
 		for i in range(0,colnum):
 			filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
 			f = open(filename,'a')
-			idx_list = list()
+			idx_list = dict()
 			for j in range(0,row):
 				val = tfidf[j,i]
 				if val > 0:
-					idx_list[j] = val
+					idx_list[j+1] = val
 			f.write(json.dumps(idx_list)+'\n')
 			f.close()
 
