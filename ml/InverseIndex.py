@@ -90,7 +90,7 @@ class InverseIndex:
 		indexdoc = dict()
 		f = open(Global.inverse_dir+'id.txt','wb')
 		for name in vectorizer.get_feature_names():
-			indexdoc[i] = name
+			indexdoc[name] = i
 			i+=1
 		f.write(json.dumps(indexdoc))
 		f.close()
@@ -99,7 +99,7 @@ class InverseIndex:
 		row = tfidf.shape[0]
 		for i in range(0,colnum):
 			filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
-			f = open(filename,'a')
+			f = open(filename,'a'
 			idx_list = dict()
 			for j in range(0,row):
 				val = tfidf[j,i]
