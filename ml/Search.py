@@ -6,6 +6,7 @@ sys.path.append("..")
 sys.setdefaultencoding('utf-8')
 from Cut import Cut
 import tools.Global as Global
+import jieba
 
 class Search:
 	def __init__(self):
@@ -15,20 +16,20 @@ class Search:
 		f = open(Global.inverse_dir+'id.txt')
 		line = f.readline()
 		kw_id = json.loads(line, encoding='utf-8')
-		kwid = dict()
-		for ki in kw_id:
-			kwid[ki.encode('utf-8')] = kw_id[ki]
-		for i in kwid:
-		 	print i,kwid[i]
-		return kwid
+		return kw_id
 
 
 	def getQueryItem(self,searchWord):
-		idx = self.kw_id[searchWord]
+		idx = self.kw_id[searchWord.decode('utf-8')]
 		cut = Cut()
-		line = cut.getRow(idx,Global.cutnews_origin_dir,Global.filesize)
-		data = json.loads(line)
-		print data['title'],'\n',data['time'],'\n',data['content'],'\n'
+		ii_line = cut.getInverseIndexRow(idx,Global.inverse_dir,Global.filesize)
+		record =json.loads(ii_line)
+		for rec in record:
+			line = cut.getRow(int(rec),Global.cutnews_origin_dir,Global.filesize)
+			data = json.loads(line)
+			print data['title'],'\n',data['time'],'\n',data['content'],'\n'
+		
+
 
 	def getInverseRecord(self,item):
 		pass
@@ -37,4 +38,4 @@ class Search:
 		pass
 
 search = Search()
-search.getQueryItem(sys.argv[1].decode('utf-8'))
+search.getQueryItem(sys.argv[1])

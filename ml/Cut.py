@@ -56,6 +56,18 @@ class Cut:
 				cut_file.write(line)
 			cut_file.close()
 			num+=1
+	
+	def getInverseIndexRow(self,recordnum,path,size):
+		filenum = (recordnum-1)/size
+		linenum = (recordnum-1)%size+1
+		cutfilename = path+'/'+str(filenum)+'.txt'
+		print cutfilename,linenum
+		linecache.clearcache()
+		line = linecache.getline(cutfilename,linenum)
+		linecache.clearcache()
+		data = json.loads(line)
+		return line
+
 	def getRow(self,recordnum,path,size):
 		filenum = (recordnum-1)/size
 		linenum = (recordnum-1)%size+1

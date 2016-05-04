@@ -11,5 +11,5 @@ s = show()
 #s.showitem(2608)
 
 c = Cut()
-line = c.getRow(2,Global.cutnews_origin_dir,Global.filesize)
+line = c.getRow(50,Global.cutnews_origin_dir,Global.filesize)
 s.showitem(line)
