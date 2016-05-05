@@ -30,6 +30,7 @@ class show:
 			c+=1
 		f.close()
 		print c
+		return c
 
 	def showitem(self,line):
 		data = json.loads(line)
@@ -42,7 +43,7 @@ class show:
 		data = json.loads(line)
 		print 'load keyword done.'
 		print type(data)
-		for k in data.keys():
-			print k,data[k]
-
+		print len(data)
+#		for k in data.keys():
+#			print k,data[k]
 

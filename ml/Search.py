@@ -19,7 +19,7 @@ class Search:
 		return kw_id
 
 
-	def getQueryItem(self,searchWord):
+	def QuerySingle(self,searchWord):
 		idx = self.kw_id[searchWord.decode('utf-8')]
 		cut = Cut()
 		ii_line = cut.getInverseIndexRow(idx,Global.inverse_dir,Global.filesize)
@@ -29,6 +29,15 @@ class Search:
 			data = json.loads(line)
 			print data['title'],'\n',data['time'],'\n',data['content'],'\n'
 		
+	def getQueryItem(self,searchWord):
+		idx = self.kw_id[searchWord.decode('utf-8')]
+		cut = Cut()
+		ii_line = cut.getInverseIndexRow(idx,Global.inverse_dir,Global.filesize)
+		record =json.loads(ii_line)
+		for rec in record:
+			line = cut.getRow(int(rec),Global.cutnews_origin_dir,Global.filesize)
+			data = json.loads(line)
+			print data['title'],'\n',data['time'],'\n',data['content'],'\n'
 
 
 	def getInverseRecord(self,item):

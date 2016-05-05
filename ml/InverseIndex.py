@@ -12,6 +12,7 @@ from sklearn import feature_extraction
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 from tools.show import show
+import numpy as np
 
 
 class InverseIndex:
@@ -82,7 +83,10 @@ class InverseIndex:
 
 	#calculate tf-idf
 	def CalcTFIDF(self):
-		docArray = self.loadDataFromCutFile(100)
+		sh = show()
+		count = sh.showcount()
+		docArray = self.loadDataFromCutFile(count)
+        #docArray = self.loadDataFromCutFile(10)
 		vectorizer = CountVectorizer()
 		transformer = TfidfTransformer()
 		tfidf = transformer.fit_transform(vectorizer.fit_transform(docArray))
@@ -99,18 +103,29 @@ class InverseIndex:
 		f.close()
 		
 		colnum = tfidf.shape[1]
-		row = tfidf.shape[0]
+		#for i in range(0,colnum):
+		#	filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
+		#	f = open(filename,'a')
+		#	idx_list = dict()
+		#	for j in range(0,row):
+		#		val = tfidf[j,i]
+		#		if val > 0:
+		#			idx_list[j+1] = val
+		#	f.write(json.dumps(idx_list)+'\n')
+		#	f.close()
+		#i表示词项的编号，row表示非零文档所在的行
 		for i in range(0,colnum):
 			filename = Global.inverse_dir+str(i/Global.filesize)+'.txt'
+			coldata = tfidf.getcol(i)
+			col_nonzero_index = np.nonzero(coldata)
+			item_weight_dict = dict()
+			for row in col_nonzero_index[0]:
+				item_weight_dict[row+1] = coldata[row][0].data[0]
 			f = open(filename,'a')
-			idx_list = dict()
-			for j in range(0,row):
-				val = tfidf[j,i]
-				if val > 0:
-					idx_list[j+1] = val
-			f.write(json.dumps(idx_list)+'\n')
+			f.write(json.dumps(item_weight_dict)+'\n')
 			f.close()
-
+			print 'item ',i,'calculate done'
+			
 
 	def WriteInverseIndex(self,mat):
 		pass
