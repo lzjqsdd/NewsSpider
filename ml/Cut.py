@@ -29,7 +29,7 @@ class Cut:
 					flag = 1
 					break
 				data = json.loads(line)
-				seg_list = jieba.cut(data['content'],cut_all=True)
+				seg_list = jieba.cut(data['content'],cut_all=False)
 				result = ' '.join(seg_list)
 				data['content'] = result
 				cut_file.write(json.dumps(data)+'\n')

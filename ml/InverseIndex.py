@@ -42,7 +42,7 @@ class InverseIndex:
 			if not line:
 				break
 			data = json.loads(line)
-			seg_list = list(jieba.cut(data['title'], cut_all=True))
+			seg_list = list(jieba.cut(data['title'], cut_all=False))
 			count+=1
 			for w in seg_list:
 				if w not in self.worddict:
@@ -59,7 +59,7 @@ class InverseIndex:
 			if not line:
 				break
 			data = json.loads(line)
-			seg_list = list(jieba.cut(data['title'],cut_all=True))
+			seg_list = list(jieba.cut(data['title'],cut_all=False))
 			doc.append(seg_list)
 		return doc
 
@@ -72,8 +72,6 @@ class InverseIndex:
 			if not line:
 				break
 			data = json.loads(line)
-#	seg_list = jieba.cut(data['content'],cut_all=True)
-
 			keyword = analyse.extract_tags(data['content'],topK=20)
 			seg = " ".join(keyword)
 			print seg
@@ -132,6 +130,6 @@ class InverseIndex:
 		
 		
 #test
-ii = InverseIndex()
-ii.CalcTFIDF()
+#ii = InverseIndex()
+#ii.CalcTFIDF()
 #ii.loadDataFromCutFile(20)
