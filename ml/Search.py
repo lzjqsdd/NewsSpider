@@ -41,7 +41,7 @@ class Search:
 		
 	
 	#'与'查询：先分词，再合并倒排记录,不考虑权重,返回文档号
-	def QueryPhrase(self,searchPhrase,ishow = True):
+	def QueryPhrase(self,searchPhrase,isshow = True):
 		words = jieba.cut(searchPhrase.decode('utf-8'),cut_all=False)
 		cut = Cut()
 		result = set(range(1,100000))
@@ -56,16 +56,16 @@ class Search:
 			for rec in record:
 				re.add(int(rec))
 			result = result & re
-		print result
-		if ishow:
-			if len(result) == 0:
-				print 'Not Exists Record!'
-			else:
-				for rst in result:
-					line = cut.getRow(int(rst),Global.cutnews_origin_dir,Global.filesize)
-					data = json.loads(line)
-					print data['title'],'\n',data['time'],'\n',data['content'],'\n'
-		return result
+		if len(result) == 0:
+			print 'Not Exists Record!'
+		newslist=list()
+		for rst in result:
+			line = cut.getRow(int(rst),Global.cutnews_origin_dir,Global.filesize)
+			data = json.loads(line)
+			if isshow:
+				print data['title'],'\n',data['time'],'\n',data['content'],'\n'
+			newslist.append(data)
+		return newslist
 
 	#返回热点新闻
 	def QueryHotNews(self):
@@ -75,6 +75,6 @@ class Search:
 	def QueryByTime(self):
 		pass
 	
-search = Search()
+#search = Search()
 #search.QueryPhrase(sys.argv[1])
-search.QueryPhrase(sys.argv[1])
+#search.QueryPhrase(sys.argv[1])
