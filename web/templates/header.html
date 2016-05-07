@@ -1,0 +1,58 @@
+$def with(searchword,newslist)
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>新闻聚合搜索引擎</title>
+   <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+   <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="padding: 100px 100px 8px;margin-top:10px">
+ <form class="bs-example bs-example-form" role="form">
+	 <div class="col-lg-8">
+	    <div class="input-group">
+	       <input type="text" name="searchword" class="form-control" placeholder=$searchword>
+	       <span class="input-group-btn">
+		  <button type="submit" class="btn btn-default" type="button">
+			搜索
+		  </button>
+	       </span>
+	    </div><!-- /input-group -->
+	 </div><!-- /.col-lg-6 -->
+   </form>
+<div> 
+
+$if len(newslist) > 0:
+	$for news in newslist:
+		<div style="padding: 100px 100px 8px;margin-top:5px">
+			<div class="col-lg-8">
+				<div class="panel panel-info">
+   					<div class="panel-heading">
+		$news['title'],时间：$news['time']
+   					</div>
+	   				<div class="panel-body">
+		$news['content'][0:100] ... <a href="#">查看全文>>></a>
+	   				</div>
+	   				<div class="panel-body">
+		原始网页链接:<a href=$news['url']>$news['url']</a>
+	   				</div>
+				</div>
+			</div>
+		</div>
+$else:
+		<div style="padding: 100px 100px 8px;margin-top:5px">
+			<div class="col-lg-8">
+				<div class="panel panel-info">
+   					<div class="panel-heading">
+						未检索到相关新闻
+   					</div>
+	   				<div class="panel-body">
+	   				</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>
