@@ -7,6 +7,7 @@ sys.setdefaultencoding('utf-8')
 from Cut import Cut
 import tools.Global as Global
 import jieba
+import time
 
 class Search:
 	def __init__(self):
@@ -59,11 +60,18 @@ class Search:
 		if len(result) == 0:
 			print 'Not Exists Record!'
 		newslist=list()
+		count = 0
 		for rst in result:
+		  	count+=1
+		  	if count > Global.listsize:
+		  		break
 			line = cut.getRow(int(rst),Global.cutnews_origin_dir,Global.filesize)
 			data = json.loads(line)
 			if isshow:
 				print data['title'],'\n',data['time'],'\n',data['content'],'\n'
+			tm = time.localtime(int(data['time']))
+			data['time'] = time.strftime('%Y-%m-%d %H:%M:%S',tm)
+			data['content'] = data['content'][0:Global.snippetsize]
 			newslist.append(data)
 		return newslist
 

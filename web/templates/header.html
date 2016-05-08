@@ -9,9 +9,10 @@ $def with(searchword,newslist)
    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div style="padding: 100px 100px 8px;margin-top:10px">
+<!--<div style="padding: 100px 100px 8px;margin-top:10px"> -->
+<div style="margin-top:30px">
  <form class="bs-example bs-example-form" role="form">
-	 <div class="col-lg-8">
+	 <div class="col-lg-8 col-lg-offset-2 ">
 	    <div class="input-group">
 	       <input type="text" class="form-control" name="searchword" placeholder=$searchword>
 	       <span class="input-group-btn">
@@ -20,28 +21,25 @@ $def with(searchword,newslist)
 	    </div><!-- /input-group -->
 	 </div><!-- /.col-lg-6 -->
    </form>
-<div> 
+</div>
+<br><br><br><br>
 
 $if len(newslist) > 0:
 	$for news in newslist:
-		<div style="padding: 100px 100px 8px;margin-top:5px">
-			<div class="col-lg-8">
+			<div class="col-lg-8 col-lg-offset-2">
 				<div class="panel panel-info">
    					<div class="panel-heading">
-		$news['title'],时间：$news['time']
+						时间:$news['time']    $news['title']
    					</div>
 	   				<div class="panel-body">
-		$news['content'][0:100] ... <a href="#">查看全文>>></a>
-	   				</div>
-	   				<div class="panel-body">
-		原始网页链接:<a href=$news['url']>$news['url']</a>
+						 $news['content'] ... <a href="#">查看全文>>></a>
+					<br><br>
+					原始网页链接:<a href=$news['url']>$news['url']</a>
 	   				</div>
 				</div>
 			</div>
-		</div>
 $else:
-		<div style="padding: 100px 100px 8px;margin-top:5px">
-			<div class="col-lg-8">
+			<div class="col-lg-8 col-lg-offset-2">
 				<div class="panel panel-info">
    					<div class="panel-heading">
 						未检索到相关新闻
@@ -50,7 +48,6 @@ $else:
 	   				</div>
 				</div>
 			</div>
-		</div>
 
 </body>
 </html>

@@ -7,3 +7,5 @@ inverse_dir=project_root+"data/inversedata/"
 cutnews_dir=project_root+"data/cutnews/"
 cutnews_origin_dir=project_root+"data/orinews"
 filesize = 100
+snippetsize = 500
+listsize = 15
