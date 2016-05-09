@@ -16,21 +16,27 @@ class index:
 	def __init__(self):
 		self.se = Search()
 	def GET(self):
-		searchword = web.input().searchword
+		data = web.input()
+		if data:
+			searchword = data.searchword
+		else:
+		 	searchword = ''
 		newslist=list()
 		if searchword:
-			newslist = self.se.QueryPhrase(searchword,False)
-		return render.header(searchword,newslist)
+			newslist = self.se.QueryByTime(searchword)
+		return render.index(searchword,newslist)
 	
 class news:
 	def __init__(self):
 		self.se = Search()
 	def GET(self):
-		searchword = web.input().searchword
-		newslist=list()
-		if searchword:
-			newslist = self.se.QueryPhrase(searchword,False)
-		return render.header(searchword,newslist)
+		data = web.input()
+		if data:
+			ID = data.id
+		else:
+		 	ID=''
+		news = self.se.QueryById(ID)
+		return render.news(news)
 
 if __name__ == "__main__":
 	app = web.application(urls,globals())

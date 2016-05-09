@@ -16,7 +16,7 @@ $def with(searchword,newslist)
 	    <div class="input-group">
 	       <input type="text" class="form-control" name="searchword" placeholder=$searchword>
 	       <span class="input-group-btn">
-			  <button class="btn btn-default" type="button">搜索</button>
+			  <button class="btn btn-default" type="submit">搜索</button>
 	       </span>
 	    </div><!-- /input-group -->
 	 </div><!-- /.col-lg-6 -->
@@ -32,7 +32,7 @@ $if len(newslist) > 0:
 						时间:$news['time']    $news['title']
    					</div>
 	   				<div class="panel-body">
-						 $news['content'] ... <a href="#">查看全文>>></a>
+						 $news['content'] ... <a href="/news?id=$news['id']" >查看全文>>></a>
 					<br><br>
 					原始网页链接:<a href=$news['url']>$news['url']</a>
 	   				</div>

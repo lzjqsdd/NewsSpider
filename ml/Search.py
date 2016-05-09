@@ -72,6 +72,7 @@ class Search:
 			tm = time.localtime(int(data['time']))
 			data['time'] = time.strftime('%Y-%m-%d %H:%M:%S',tm)
 			data['content'] = data['content'][0:Global.snippetsize]
+			data['id'] = rst
 			newslist.append(data)
 		return newslist
 
@@ -80,8 +81,27 @@ class Search:
 		pass
 
 	#返回最新新闻
-	def QueryByTime(self):
-		pass
+	def QueryByTime(self,searchPhrase):
+		newslist = self.QueryPhrase(searchPhrase,False)
+		return sorted(newslist,lambda x,y:cmp(y['time'],x['time']))
+
+	def QueryById(self,no):
+		no = int(no.decode('utf-8'))
+		default = dict()
+		default['title'] = "No Such News"
+		default['time']=''
+		default['content'] = "Oh No!"
+		default['url'] = "#"
+		if not no:
+			return default
+		cut = Cut()
+		line = cut.getRow(no,Global.cutnews_origin_dir,Global.filesize)
+		if line:
+			data = json.loads(line)
+			return data
+		else:
+			return default
+
 	
 #search = Search()
 #search.QueryPhrase(sys.argv[1])
