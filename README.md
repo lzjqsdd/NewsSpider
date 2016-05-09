@@ -3,6 +3,11 @@
 - 网易新闻
 - 腾讯新闻
 
+## 主要功能
+  - 新闻抓取
+  - 索引构建
+  - 前端搜索
+
 ### [整体结构](https://github.com/lzjqsdd/NewsSpider/blob/master/Frame.md)
 
 ## 运行
@@ -26,3 +31,6 @@ scrapy crawl [toutiao|netease|tencent]
    	- title.json(不含新闻内容)
    	- news.json(含新闻内容)，可以在setting.py中修改默认写入选项
    	- `news2db.py` 可以将json文件写入`sqlite3`数据库
+
+### Demo展示
+![Demo](https://github.com/lzjqsdd/NewsSpider/blob/master/data/show.png)
