@@ -1,4 +1,4 @@
--*- coding: utf-8 -*- 
+#-*- coding: utf-8 -*- 
 
 #项目根目录
 project_root="../"
