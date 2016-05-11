@@ -31,6 +31,10 @@ scrapy crawl [toutiao|netease|tencent]
    	- title.json(不含新闻内容)
    	- news.json(含新闻内容)，可以在setting.py中修改默认写入选项
    	- `news2db.py` 可以将json文件写入`sqlite3`数据库
+  - 所有的数据配置均可以在tool/Global.py中修改
 
+### TODO
+  - 相似新闻推荐
+  - 排序算法
 ### Demo展示
 ![Demo](https://github.com/lzjqsdd/NewsSpider/blob/master/data/show.png)
