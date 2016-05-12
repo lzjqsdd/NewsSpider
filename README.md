@@ -12,6 +12,9 @@
 
 ## 运行
 
+### 一键启动
+  直接执行工程目录下的start.sh，可以启动抓取，索引和检索。
+
 ### 同时运行所有爬虫
 ```shell
 git clone https://github.com/lzjqsdd/NewsSpider.git
