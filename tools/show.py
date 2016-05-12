@@ -21,7 +21,7 @@ class show:
 		f.close()
 
 	def showcount(self):
-		f = open(Global.title_dir,'r')
+		f = open(Global.content_dir,'r')
 		c=0
 		while True:
 			line = f.readline()

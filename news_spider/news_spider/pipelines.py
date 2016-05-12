@@ -8,11 +8,15 @@ import codecs
 import json
 from items import TitleSpiderItem
 import threading
+import sys
+reload(sys)
+sys.path.append("..")
+import tools.Global as Global
 
 
 class NewsSpiderPipeline(object):
 	lock = threading.Lock()
-	file = open('../data/news.json','a')
+	file = open(Global.content_dir,'a')
 	
 	def __init__(self):
 		pass
@@ -33,10 +37,11 @@ class NewsSpiderPipeline(object):
 
 class TitlePipeline(object):
 	lock = threading.Lock()
-	file_title = open('../data/title.json','a')
+	file = open(Global.title_dir,'a')
 
 	def __init__(self):
 		pass
+
 	def process_item(self,item,spider):
 		title_item = TitleSpiderItem()
 		title_item['title'] = item['title']
