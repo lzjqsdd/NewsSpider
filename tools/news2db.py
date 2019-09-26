@@ -10,6 +10,15 @@ sys.setdefaultencoding('utf-8')
 
 file = open(Global.content_dir)
 conn = sqlite3.connect('news.db')
+
+# Check table is exist
+cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+result = cursor.fetchall()
+tables = [tables[0] for tables in result]
+if 'news' not in tables:
+    conn.execute("CREATE TABLE news (title, time, url)")
+    conn.commit()
+
 while 1:
 	line = file.readline()
 	if not line:
