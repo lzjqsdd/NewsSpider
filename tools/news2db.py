@@ -12,12 +12,12 @@ file = open(Global.content_dir)
 conn = sqlite3.connect('news.db')
 
 # Check table is exist
-cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
-result = cursor.fetchall()
-tables = [tables[0] for tables in result]
-if 'news' not in tables:
-    conn.execute("CREATE TABLE news (title, time, url)")
-    conn.commit()
+# Method 1
+# cursor = conn.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='news';")
+# result = cursor.fetchone()[0]
+# Method 2
+conn.execute("CREATE TABLE IF NOT EXISTS news (title, content, time, url)")
+conn.commit()
 
 while 1:
 	line = file.readline()
@@ -25,8 +25,8 @@ while 1:
 		break
 	line = re.sub("'","’",line)
 	data = json.loads(line)
-	insertsql = "insert into news(title,time,url) values ('"+str(data['title']).decode('utf-8')+"','"+str(data['time']).decode('utf-8')+"','"+str(data['url']).decode('utf-8')+"')"
-	print insertsql
+	insertsql = "insert into news(title,content,time,url) values ('"+str(data['title']).decode('utf-8')+"','"+str(data['content'])+"','"+str(data['time']).decode('utf-8')+"','"+str(data['url']).decode('utf-8')+"')"
+	print data['title'].decode('utf-8')
 	conn.execute(insertsql)
 	conn.commit()
 
